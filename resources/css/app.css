@@ -1,0 +1,22 @@
+body {
+    background-color: #fff;
+}
+.bg-w-50 {
+    background-color: #e6f2ff;
+}
+.bg-w-0 {
+    background-color: #fff;
+}
+
+/* Text area design */
+textarea[name="estab_historical_desc"] {
+    resize: none;
+}
+
+.hid {
+    display: none;
+}
+
+#hid {
+    display: none !important;
+}
