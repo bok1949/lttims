@@ -65,7 +65,7 @@ class ShowProfile extends Component
        
         $this->pn = $value;
         $this->validate([
-            'phone_number' => 'required|min:7|integer'
+            'phone_number' => 'required|min:7|numeric'
         ]);
         
         DB::table('establishment_user_infos')
@@ -80,7 +80,7 @@ class ShowProfile extends Component
     public function saveMobileNumber($value){
         $this->mn = $value;
         $this->validate([
-            'seven_digit_mobile_number' => 'required|min:7|integer',
+            'seven_digit_mobile_number' => 'required|min:7|numeric',
             'mobile_number_prefix'   => 'required'
         ]);
         DB::table('establishment_user_infos')

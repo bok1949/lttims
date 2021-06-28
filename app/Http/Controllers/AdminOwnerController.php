@@ -78,7 +78,7 @@ class AdminOwnerController extends Controller
         $userName = Str::lower($request->estab_name).'_'.$unameprepend.rand($unameprepend, $unameprepend + 3);
         $userName = preg_replace('/\s+/', '_',$userName);
         /* return $userName; */
-        $nameOfFolder = preg_replace('/\s+/', '-',$request->estab_name);
+        $nameOfFolder = preg_replace('/\s+/', '-',Str::lower($request->estab_name));
 
         /* New File Name */
         $newFileNameBP = uniqid() . '-' . time() . 'business-permit.'.$request->file('business_permit')->extension();

@@ -138,7 +138,7 @@ class EstablishmentController extends Controller
                     ->where('ua_id', session('authID'))->first();
         /* dd($folderName->establishment_name); */
         /* Folder Name */
-        $folderName = preg_replace('/\s+/', '-', $estabName->establishment_name);
+        $folderName = preg_replace('/\s+/', '-', Str::lower($estabName->establishment_name));
         /* New File Name */
         $imageNewName = uniqid() . '-' . time() .'.'.$request->file('photo')->extension();
         
@@ -170,7 +170,7 @@ class EstablishmentController extends Controller
                     ->where('ua_id', session('authID'))->first();
         /* dd(route('visitor-logform', $estabName->id)); */
         /* Folder Name */
-        $folderName = preg_replace('/\s+/', '-', $estabName->establishment_name);
+        $folderName = preg_replace('/\s+/', '-', Str::lower($estabName->establishment_name));
         if (!file_exists(public_path('storage/uploads/'.$folderName.'/'.$folderName.'.png'))) {
             QrCode::size(500)
               ->format('png')
@@ -182,7 +182,7 @@ class EstablishmentController extends Controller
 
     public function dlQrCode($filename){
         /* dd($filename); */
-        $file_path = public_path('storage/uploads/'.$filename.'/'.$filename.'.png');
+        $file_path = public_path('storage/uploads/'.Str::lower($filename).'/'.Str::lower($filename).'.png');
         return Response::download($file_path);
     }
 
