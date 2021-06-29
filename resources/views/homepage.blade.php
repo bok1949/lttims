@@ -12,11 +12,11 @@
         </div>
 
         <nav class="nav-menu d-none d-lg-block">
-        <ul>
+        {{-- <ul>
             <li class="active"><a href="{{route('ao.home')}}">Home</a></li>
             <li><a href="{{route('ao.login')}}">Login</a></li>
             <li><a href="{{route('ao.register')}}">Register</a></li>
-        </ul>
+        </ul> --}}
         </nav><!-- .nav-menu -->
     </div>
 @endsection
