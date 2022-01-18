@@ -21,7 +21,7 @@ class AuthCheck
             /* dd($request->url() .'=='.url()->route('ao.login')); */
             return redirect()->route('ao.login')->with('fail', 'You must logged in');
         }
-
+        
         return $next($request);
     }
 }

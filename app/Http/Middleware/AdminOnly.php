@@ -20,10 +20,11 @@ class AdminOnly
         /* Get user role */
         $urole = DB::table('users')->select('user_role')->where('id', session('authID'))->first();
         
-        if($urole->user_role != 'establishment'){
+        if($urole->user_role != 'admin'){
             /* dd('Admin only page'); */
             
-            return back();
+            return redirect()->route('ao.login');
+            // return back();
         }
         return $next($request);
     }

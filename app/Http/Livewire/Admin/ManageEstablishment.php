@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ManageEstablishment extends Component
 {
@@ -99,6 +101,13 @@ class ManageEstablishment extends Component
             ->where('id', $id)
             ->update(['account_status' => 1]);
         $this->accountStatus =1;
+    }
+
+    public function resetPassword($id){
+        $newpass=strtolower(Str::random(6));
+        DB::table('users')->where('id', $id)
+        ->update(['password'=>Hash::make($newpass)]);
+        session()->flash('resetpass', 'Your new password is: '. $newpass);
     }
 
     public function cancel(){

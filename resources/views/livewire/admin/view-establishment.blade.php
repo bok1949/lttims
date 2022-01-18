@@ -1,6 +1,6 @@
 <div>
     <!-- Modal -->
-    <div wire:ignore.self class="modal hide fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div wire:ignore.self class="modal hide fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
                 <div class="modal-header">
@@ -57,40 +57,58 @@
                                             </div><div class="col-sm-6">{{$piUsername}}</div>
                                         </div>
                                         <div class="row border-bottom mb-2">
-                                            <div class="col-sm-6 text-right"><span class="font-weight-bold">Person-in-charge Password:</span> 
-                                            </div><div class="col-sm-6">{{$piPw}}</div>
+                                            <div class="col-sm-6 text-right"><span class="font-weight-bold">Account Status:</span> 
+                                            </div><div class="col-sm-6">
+                                                 @if ($accountStatus == 1)
+                                                    <span class="text-success align-middle">Active</span>
+                                                @else
+                                                    <span class="text-danger" >Not Active</span>  
+                                                @endif
+                                            </div>
                                         </div>
-                                        @if ($accountStatus == 1)
-                                            <button type="button" class="btn btn-outline-success disabled">Active</button>                                                
-                                            <button type="button" class="btn btn-outline-danger" wire:click="deactiveAccount({{$userId}})">Deactivate</button>    
-                                        @else
-                                            <button type="button" class="btn btn-outline-danger" disabled>Not Active</button>                                                
-                                            <button type="button" class="btn btn-outline-info" wire:click="activateAccount({{$userId}})">Activate </button>                                                
-                                        @endif
+                                        <div class="row mb-2 mt-2">
+                                            <div class="col-sm-4 offset-2">
+                                                @if ($accountStatus == 1)
+                                                    <button type="button" class="btn btn-danger" wire:click="deactiveAccount({{$userId}})">Deactivate</button>    
+                                                @else
+                                                    <button type="button" class="btn btn-info" wire:click="activateAccount({{$userId}})">Activate </button>                                                
+                                                @endif
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <button class="btn btn-primary" wire:click="resetPassword({{$userId}})">Reset-Password</button>
+                                            </div>
+                                            @if (session()->has('resetpass'))
+                                            <div class="row mt-2">
+                                                <div class="alert-success text-center">
+                                                    {{session('resetpass')}}
+                                                </div>
+                                            </div>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        
+                        @if ($viewModal)
                         <div class="row border-bottom">
                             <div class="col-sm-4 text-right"><span class="font-weight-bold">Business Permit:</span> </div>
                             <div class="col-sm-4">
-                                <img src="{{asset($bp_path)}}" class="img-thumbnail img-fluid my-1" alt="Business Permit">
+                                <img src="{{ asset('storage/'.$bp_path) }}" class="img-thumbnail img-fluid my-1" alt="Business Permit">
                             </div>
                         </div>
                         <div class="row border-bottom">
                             <div class="col-sm-4 text-right"><span class="font-weight-bold">Valid Identification:</span> </div>
                             <div class="col-sm-4">
-                                <img src="{{asset($vid_path)}}" class="img-thumbnail img-fluid my-1" alt="Business Permit">
+                                <img src="{{asset('storage/'.$vid_path)}}" class="img-thumbnail img-fluid my-1" alt="Business Permit">
                             </div>
                         </div>
                         <div class="row border-bottom">
                             <div class="col-sm-4 text-right"><span class="font-weight-bold">Tax Identification:</span> </div>
                             <div class="col-sm-4">
-                                <img src="{{asset($tid_path)}}" class="img-thumbnail img-fluid my-1" alt="Business Permit">
+                                <img src="{{asset('storage/'.$tid_path)}}" class="img-thumbnail img-fluid my-1" alt="Business Permit">
                             </div>
                         </div>
+                        @endif
                     </div>
                     
                 </div>

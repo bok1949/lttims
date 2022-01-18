@@ -22,7 +22,7 @@ use App\Http\Controllers\EstablishmentController;
 
 
 /* Home page */
-Route::get('/', [HomePagesController::class, 'lttimsHome']);
+Route::get('/', [HomePagesController::class, 'lttimsHome'])->name('homepage');
 
 
 Route::prefix('ao')->group(function(){
@@ -59,6 +59,7 @@ Route::prefix('ao')->group(function(){
             Route::get('/manage-establishment', [AdminController::class, 'manageEstablishment'])->name('ao.manage-establishment');
             Route::get('/manage-events', [AdminController::class, 'manageEvents'])->name('ao.manage-events');
             Route::get('/manage-reports', [AdminController::class, 'manageReports'])->name('ao.manage-reports');
+            Route::get('/manage-personal-profile', [AdminController::class, 'managePersonalProfile'])->name('ao.manage-personal-profile');
         });
         
 

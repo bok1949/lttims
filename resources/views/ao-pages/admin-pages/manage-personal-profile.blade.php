@@ -1,7 +1,7 @@
 @extends('layouts/admin-owner/ao-app')
 
 @section('title')
-    LTB-Tourism Admin Page-ManageEvents
+    LTB-Tourism Admin Page-ManageReports
 @endsection
 
 @section('header-nav')
@@ -28,20 +28,20 @@
             <aside class="col-sm-3  border-right border-secondary" id="left">
                 <div class="mt-3 mb-3 sticky-top-custom " id="side">
                     <ul class="nav flex-md-column flex-row justify-content-between" id="sidenav">
-                        <li class="nav-item custom-hover"><a href="{{route('ao.admin-dashboard')}}" class="nav-link pl-2"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a></li>
+                        <li class="nav-item  custom-hover"><a href="{{route('ao.admin-dashboard')}}" class="nav-link pl-2"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</a></li>
                         <span class="dropdown-item active my-2" >Information Management</span>
                         <li class="nav-item custom-hover "><a href="{{route('ao.manage-establishment')}}" class="nav-link pl-2"><i class="fa fa-university" aria-hidden="true"></i> Establishments {{-- <i class="fa fa-bell" aria-hidden="true"></i> --}}</a></li>
-                        <li class="nav-item  custom-active "><a href="{{route('ao.manage-events')}}" class="nav-link pl-2"><i class="fa fa-calendar" aria-hidden="true"></i> Events</a></li>
-                        <li class="nav-item custom-hover "><a href="{{route('ao.manage-reports')}}" class="nav-link pl-2"><i class="fa fa-suitcase" aria-hidden="true"></i> Reports</a></li>
+                        <li class="nav-item custom-hover "><a href="{{route('ao.manage-events')}}" class="nav-link pl-2"><i class="fa fa-calendar" aria-hidden="true"></i> Events</a></li>
+                        <li class="nav-item custom-hover"><a href="{{route('ao.manage-reports')}}" class="nav-link pl-2"><i class="fa fa-suitcase" aria-hidden="true"></i> Reports</a></li>
                         <span class="dropdown-item active my-2" >Profile Management</span>
-                        <li class="nav-item custom-hover "><a href="{{route('ao.manage-personal-profile')}}" class="nav-link pl-2"><i class="fa fa-user" aria-hidden="true"></i></i> Profile</a></li>
+                        <li class="nav-item  custom-active"><a href="{{route('ao.manage-personal-profile')}}" class="nav-link pl-2"><i class="fa fa-user" aria-hidden="true"></i></i> Profile</a></li>
                     </ul>
                 </div>
             </aside>
             <main class="col py-3 ">
                 <div class="row position-relative">
                     <div class="col ">
-                        Manage Events
+                        Manage Personal Profile
                         
                     </div>
                 </div>

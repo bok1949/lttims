@@ -108,16 +108,16 @@ class EstablishmentController extends Controller
             'confirm_password'  => 'required|same:password'
         ]);
         //return session('authID');
-        $sameEmail = DB::table('users')
+        $uname = DB::table('users')
                     ->where([
                         ['username', $request->username],
                         ['id', session('authID')]
                         ])->count();
-        if($sameEmail > 0){
-            return back()->with('fail', "You cannot use the same email you used");
+        if($uname > 0){
+            return back()->with('fail', "You cannot use the same username assigned to you!");
         }
         if(DB::table('users')->where('username', $request->username)->count() > 0){
-            return back()->with('fail',"Email is already taken.");
+            return back()->with('fail',"Username is already taken.");
         }
         $update = DB::table('users')->where('id', session('authID'))->update([
                     'username'      => $request->username,
@@ -224,7 +224,8 @@ class EstablishmentController extends Controller
             'eui_id'                    => $request->estab_id,
             'created_at'                => Carbon::now()
         ]);
-        return back()->with('success', 'Information saved successfully!');
+        /* return back()->with('success', 'Information saved successfully!'); */
+        return redirect()->route('homepage')->with('success', 'Information saved successfully!');
         
     }
 

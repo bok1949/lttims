@@ -35,32 +35,44 @@
 <main id="main" class="container-fluid">
     <div class="container-fluid pt-5">
          <div class="row h-100 mt-5">
-            @if ($loggedUserInfo->updated_at == null)
+            @if ($loggedUserInfo->updated_at === null)
             <div class="col-sm-8 offset-2">
                 <h2>Change User Account Credentials</h2>
-                <span class="text-center">You are required to change your Account Credentials. Note that you cannot use the same username given to you.</span>
+                <span class="text-center border-bottom border-danger">
+                    <strong>NOTE: </strong>
+                    You are required to change your Account Credentials. Note that you cannot use the same username given to you.
+                </span>
                 <form action="{{route('estab.submitAccountChanges')}}" method="POST">
                     @csrf
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <label for="username">Username</label>
                         <input type="text" name="username" id="username" class="form-control" placeholder="Enter Username..." value="{{old('username')}}">
-                        <span class="text-danger">@error('username')
-                            {{$message}}
-                        @enderror</span>
+                        <span class="text-danger">
+                            @error('username')
+                                {{$message}}
+                            @enderror
+                            @if (session()->has('fail'))
+                                {{session()->get('fail')}}
+                            @endif
+                        </span>
                     </div>
                     <div class="form-group">
                         <label for="">Password</label>
                         <input type="password" name="password" class="form-control" placeholder="Enter password...">
-                        <span class="text-danger">@error('password')
-                            {{$message}}
-                        @enderror</span>
+                        <span class="text-danger">
+                            @error('password')
+                                {{$message}}
+                            @enderror
+                        </span>
                     </div>
                     <div class="form-group">
                         <label for="">Confirm Password</label>
                         <input type="password" name="confirm_password" class="form-control" placeholder="Enter password...">
-                        <span class="text-danger">@error('confirm_password')
-                            {{$message}}
-                        @enderror</span>
+                        <span class="text-danger">
+                            @error('confirm_password')
+                                {{$message}}
+                            @enderror
+                        </span>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary px-4">Save</button>
@@ -118,6 +130,11 @@
                         </div>
                     </div>
                 </div>
+                {{-- <div class="row">
+                    <div class="col-sm-8 offset-2 bg-primary">
+                        past visitors
+                    </div>
+                </div> --}}
             </main>
             @endif
         </div>

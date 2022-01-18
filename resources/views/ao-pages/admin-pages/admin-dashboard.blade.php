@@ -12,17 +12,9 @@
 
         <nav class="nav-menu d-none d-lg-block">
             <ul>
-                <li class="nav-item"> <a href="{{route('estab.dashboard')}}">{{$loggedUserInfo->first_name.' '.$loggedUserInfo->last_name}}</a></li>
+                <li class="nav-item"> <a href="{{route('estab.dashboard')}}">{{$user->first_name.' '.$user->last_name}}</a></li>
                 <li class="nav-item"><a href="{{route('ao.logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
             </ul>
-            {{-- <ul>
-                <li class="drop-down"><span class="btn">{{$loggedUserInfo->first_name.' '.$loggedUserInfo->last_name}}</span>
-                    <ul>
-                        <li><a href="#">Profile</a></li>
-                        <li><a href="{{route('ao.logout')}}">Logout</a></li>
-                    </ul>
-                </li>
-            </ul> --}}
         </nav><!-- .nav-menu -->
     </div>
 @endsection
@@ -40,16 +32,15 @@
                         <li class="nav-item custom-hover "><a href="{{route('ao.manage-establishment')}}" class="nav-link pl-2"><i class="fa fa-university" aria-hidden="true"></i> Establishments {{-- <i class="fa fa-bell" aria-hidden="true"></i> --}}</a></li>
                         <li class="nav-item custom-hover "><a href="{{route('ao.manage-events')}}" class="nav-link pl-2"><i class="fa fa-calendar" aria-hidden="true"></i> Events</a></li>
                         <li class="nav-item custom-hover "><a href="{{route('ao.manage-reports')}}" class="nav-link pl-2"><i class="fa fa-suitcase" aria-hidden="true"></i> Reports</a></li>
-                        <span class="dropdown-item active my-2" >Profile</span>
-                        <li class="nav-item custom-hover "><a href="{{route('ao.manage-reports')}}" class="nav-link pl-2"><i class="fa fa-user" aria-hidden="true"></i></i> Profile</a></li>
+                        <span class="dropdown-item active my-2" >Profile Management</span>
+                        <li class="nav-item custom-hover "><a href="{{route('ao.manage-personal-profile')}}" class="nav-link pl-2"><i class="fa fa-user" aria-hidden="true"></i></i> Profile</a></li>
                     </ul>
                 </div>
             </aside>
             <main class="col py-3 ">
                 <div class="row position-relative">
                     <div class="col ">
-                        Admin Dashboard
-                        
+                       
                     </div>
                 </div>
             </main>

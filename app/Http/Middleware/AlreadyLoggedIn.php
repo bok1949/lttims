@@ -24,12 +24,11 @@ class AlreadyLoggedIn
             /* abort(403, 'Unauthorized action.'); */
             /* return back(); */
             /* dd('already loggedin'); */
-            if($urole->user_role == 'establishment'){
-                                
+            if($urole->user_role == 'establishment'){           
                 return redirect()->route('estab.dashboard');
             }
-            if($urole->user_role == 'establishment'){
-                                
+            if($urole->user_role == 'admin'){
+                              
                 return redirect()->route('ao.admin-dashboard');
             }
         }

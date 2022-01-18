@@ -22,7 +22,7 @@
     <!-- Template Main CSS File -->
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/custom-style.css') }}">
-    
+    {{-- @yield('headcss') --}}
 </head>
 <body style="background-color: #fff">
     <!-- ======= Header ======= -->
@@ -76,5 +76,6 @@
     
     <script src="{{ asset('js/app.js') }}" defer></script>
     @stack('scripts')
+    
 </body>
 </html>

@@ -26,18 +26,27 @@
 <section id="hero" class="d-flex align-items-center">
 
     <div class="container">
-        <div class="row">
+      @if (session()->has('success'))
+      <div class="row ustify-content-md-center ">
+          <div class="col">
+              <span class="alert alert-success d-block text-center" role="alert">
+                  {{ session('success') }} 
+              </span>
+          </div>
+      </div>  
+      @endif
+      <div class="row">
         <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
             <h1 data-aos="fade-up">La Trinidad Tourism</h1>
             <h2 data-aos="fade-up" data-aos-delay="400">La Trinidad Tourism Slogan</h2>
-            <div data-aos="fade-up" data-aos-delay="800">
+            {{--  <div data-aos="fade-up" data-aos-delay="800">
                 <a href="" class="btn-get-started scrollto">Visitor Registration</a>
-            </div>
+            </div> --}}
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left" data-aos-delay="200">
             <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
         </div>
-        </div>
+      </div>
     </div>
 
 </section><!-- End Hero -->

@@ -1,14 +1,15 @@
 <div>
-    
-    @include('livewire.admin.view-establishment')
-   
-    <h2 class="text-center">Manage Establishement</h2>
-    <input type="text"  class="form-control col-md-8 offset-2 my-2" placeholder="Search [Establishment Name or Email]... " wire:model="searchTerm" />
-    @if ($data->count() == 0)
+    @if ($data->count() < 1)
     <div class="alert alert-warning">
         <p>No record available.</p>
     </div>
     @else
+    <h2 class="text-center">List of Establishements </h2>
+    <div class="row mb-2">
+        <div class="col">
+            <button type="button" wire:click="generateEstablishmentPDF()" class="btn btn-info">Download</button>
+        </div>
+    </div>
     @php
         $ctr = 1;
     @endphp
@@ -20,9 +21,7 @@
                 <th scope="col">Mobile Number</th>
                 <th scope="col">Phone Number</th>
                 <th scope="col">Email</th>
-                {{-- <th scope="col">Website</th> --}}
                 <th scope="col">FB Account</th>
-                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -33,11 +32,7 @@
                 <td>{{$item->establishment_mobilenum}}</td>
                 <td>{{$item->establishment_phonenum}}</td>
                 <td>{{$item->establishment_email}}</td>
-                {{-- <td>{{$item->establishment_website}}</td> --}}
                 <td>{{$item->establishment_fb_account}}</td>
-                <td>
-                    <button data-toggle="modal" data-target="#showModal" wire:click="viewEstab({{$item->id}})" class="btn btn-primary btn-sm">View</button>
-                </td>
             </tr>
                 @php
                     $ctr++;
@@ -45,9 +40,7 @@
             @endforeach
         </tbody>
     </table>
-    {{-- {{$data->withQueryString()->links()}} --}}
     <div class="col">
-        {{-- {!!$data->render()!!} --}}
         {{$data->links()}}
        
     </div>
