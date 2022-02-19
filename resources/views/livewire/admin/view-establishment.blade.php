@@ -43,7 +43,7 @@
                             <div class="col-sm-4 text-right"><span class="font-weight-bold">Person-in-charge Contact Num:</span> 
                             </div><div class="col-sm-8">{{$piMobileNum}}</div>
                         </div>
-
+                        
                         <div class="row">
                             <div class="col-sm-8 offset-2 mt-1">
                                 <div class="card">
@@ -53,9 +53,16 @@
                                     <div class="card-body">
                                         
                                         <div class="row border-bottom">
-                                            <div class="col-sm-6 text-right"><span class="font-weight-bold">Person-in-charge Username:</span> 
+                                            <div class="col-sm-6 text-right"><span class="font-weight-bold">Username:</span> 
                                             </div><div class="col-sm-6">{{$piUsername}}</div>
                                         </div>
+                                        @if ($needsapproval)
+                                            <div class="row border-bottom">
+                                                <div class="col-sm-6 text-right"><span class="font-weight-bold">Password:</span> 
+                                                </div><div class="col-sm-6">{{$piUsername}}</div>
+                                            </div>
+                                        @endif
+                                        @if ($approved)
                                         <div class="row border-bottom mb-2">
                                             <div class="col-sm-6 text-right"><span class="font-weight-bold">Account Status:</span> 
                                             </div><div class="col-sm-6">
@@ -77,18 +84,21 @@
                                             <div class="col-sm-5">
                                                 <button class="btn btn-primary" wire:click="resetPassword({{$userId}})">Reset-Password</button>
                                             </div>
-                                            @if (session()->has('resetpass'))
-                                            <div class="row mt-2">
-                                                <div class="alert-success text-center">
-                                                    {{session('resetpass')}}
-                                                </div>
-                                            </div>
-                                            @endif
+                                           
                                         </div>
+                                            @if (session()->has('resetpass'))
+                                                <div class="row mt-2">
+                                                    <div class="alert-success text-center">
+                                                        {{session('resetpass')}}
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                         @if ($viewModal)
                         <div class="row border-bottom">
                             <div class="col-sm-4 text-right"><span class="font-weight-bold">Business Permit:</span> </div>
@@ -112,9 +122,15 @@
                     </div>
                     
                 </div>
+                 
                 <div class="modal-footer">
-                    <button type="button" wire:click.prevent="cancel()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                   
                     {{-- <button type="button" wire:click.prevent="update()" class="btn btn-primary" data-dismiss="modal">Save changes</button> --}}
+                    @if ($needsapproval)
+                        <button type="button" wire:click.prevent="accountRemoval({{json_encode($userId)}}, {{json_encode($estabName)}})" class="btn btn-danger" data-dismiss="modal">Remove </button>
+                        <button type="button" wire:click.prevent="accountApproval({{$userId}})" class="btn btn-primary" data-dismiss="modal">Approve</button>
+                    @endif
+                    <button type="button" wire:click.prevent="cancel()" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
         </div>
         </div>

@@ -1,5 +1,7 @@
 <div>
+    <h2 class="text-center">Manage Reports</h2>
     <div class="row">
+        
         <div class="col">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">

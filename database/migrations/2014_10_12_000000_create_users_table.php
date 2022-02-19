@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('person_contactnum')->nullable();
             $table->string('password');
             $table->string('user_role');
-            $table->tinyInteger('account_status');
+            $table->boolean('account_status')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

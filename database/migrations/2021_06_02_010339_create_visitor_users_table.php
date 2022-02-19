@@ -20,12 +20,12 @@ class CreateVisitorUsersTable extends Migration
             $table->string('city_municipality');
             $table->string('province');
             $table->string('gender');
-            $table->float('temperature', 2,2);
+            $table->string('temperature');
             $table->string('people_with_you_male')->nullable();
             $table->string('people_with_you_female')->nullable();
             $table->string('people_with_you_lgbtq')->nullable();
              $table->unsignedBigInteger('eui_id');
-            $table->foreign('eui_id')->references('id')->on('establishment_user_infos');
+            $table->foreign('eui_id')->references('id')->on('establishment_user_infos')->onDelete('cascade');
             $table->timestamps();
         });
     }

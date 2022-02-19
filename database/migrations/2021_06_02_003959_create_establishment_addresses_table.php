@@ -21,7 +21,7 @@ class CreateEstablishmentAddressesTable extends Migration
             $table->string('province');
             $table->string('zip');
             $table->unsignedBigInteger('eui_id');
-            $table->foreign('eui_id')->references('id')->on('establishment_user_infos');
+            $table->foreign('eui_id')->references('id')->on('establishment_user_infos')->onDelete('cascade');
             $table->timestamps();
         });
     }

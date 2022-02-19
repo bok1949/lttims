@@ -16,6 +16,7 @@ class CreateEstablishmentUserInfosTable extends Migration
         Schema::create('establishment_user_infos', function (Blueprint $table) {
             $table->id();
             $table->string('establishment_name');
+            $table->string('type_of_establishment');
             $table->string('establishment_phonenum')->nullable();
             $table->string('establishment_mobilenum');
             $table->string('establishment_email')->nullable();
@@ -26,7 +27,8 @@ class CreateEstablishmentUserInfosTable extends Migration
             $table->text('valid_id_path')->nullable();
             $table->text('tax_id_path')->nullable();
             $table->unsignedBigInteger('ua_id');
-            $table->foreign('ua_id')->references('id')->on('users');
+            $table->foreign('ua_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamp('unreadNotifications')->nullable();
             $table->timestamps();
         });
     }

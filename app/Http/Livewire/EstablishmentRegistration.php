@@ -8,11 +8,13 @@ use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class EstablishmentRegistration extends Component
 {
     use WithFileUploads;
     public $establishment_name,
+    $type_of_establishment,
     $establishment_email,
     $establishment_mobile_number,
     $establishment_phone_number,
@@ -30,6 +32,8 @@ class EstablishmentRegistration extends Component
 
     public $totalSteps = 4;
     public $currentStep = 1;
+
+    public $counter;
 
     public function mount(){
         $this->currentStep = 1;
@@ -96,6 +100,7 @@ class EstablishmentRegistration extends Component
         if($this->currentStep == 1){
             $this->validate([
                 'establishment_name'            => 'required',
+                'type_of_establishment'         => 'required',
                 'establishment_email'           => 'required|email',
                 'establishment_mobile_number'   => 'required|numeric|min:11'
             ]);
@@ -136,6 +141,7 @@ class EstablishmentRegistration extends Component
                 'tax_id'            => 'required|image|mimes:jpg,jpeg,png|max:5120'
             ]);
         }
+        /* dd($this->business_permit); */
        /*  dd($this->business_permit->extension().'--'.uniqid().' bp'.time());
         dd($this->business_permit->file('business_permit')); */
         
@@ -158,7 +164,7 @@ class EstablishmentRegistration extends Component
             'person_contactnum' => $this->person_mobile_number,
             'password'          => Hash::make($userName2),
             'user_role'         => 'establishment',
-            'account_status'    => 1,
+            'account_status'    => 0,
             'created_at'        => Carbon::now()->format('Y-m-d H:i:s')
         ]);
         $bs = $this->business_permit->store($nameOfFolder,'public');
@@ -166,6 +172,7 @@ class EstablishmentRegistration extends Component
         $taxid=$this->tax_id->store($nameOfFolder,'public');
         $eui_id = DB::table('establishment_user_infos')->insertGetId([
             'establishment_name'        => $this->establishment_name,
+            'type_of_establishment'     => $this->type_of_establishment,
             'establishment_phonenum'    => $this->establishment_phone_number,
             'establishment_mobilenum'   => $this->establishment_mobile_number,
             'establishment_email'       => $this->establishment_email,
@@ -176,8 +183,10 @@ class EstablishmentRegistration extends Component
             'valid_id_path'             => $validid,
             'tax_id_path'               => $taxid,
             'ua_id'                     => $userId,
+            /* 'unreadNotifications'       => '', */
             'created_at'                => Carbon::now()
         ]);
+        
         DB::table('establishment_addresses')->insert([
             'frbs'          => Str::upper($this->room_number_street),
             'barangay'      => Str::upper($this->barangay),
@@ -187,7 +196,18 @@ class EstablishmentRegistration extends Component
             'eui_id'        => $eui_id,
             'created_at'    => Carbon::now()
         ]);
-        session()->flash('message', 'Resitration Successful!.');
+        $this->cleanUpTempFiles();
+        session()->flash('message', 'You have registered successfully!!');
+        /* $this->emit('countNoti'); */
+        /* $this->dispatchBrowserEvent('countNoti'); */
         return redirect()->to('ao/register');
+    }
+
+    public function cleanUpTempFiles(){
+        $oldFiles = Storage::files('livewire-tmp');
+        /* dd($oldFiles); */
+        foreach ($oldFiles as $file) {
+            Storage::delete($file);
+        }
     }
 }

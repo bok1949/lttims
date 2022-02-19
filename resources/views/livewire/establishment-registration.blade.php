@@ -10,7 +10,7 @@
             <div class="col-md-10 offset-1">
                 <h3 class="h2 text-center mt-4" data-aos="fade-up">Registration</h3>
                 <p class="text-muted small text-center mb-0" data-aos="fade-up" data-aos-delay="300">(for Establishments and Tourist Spots only)</p>
-                <p class="small text-center text-danger my-0" data-aos="fade-up" data-aos-delay="400">NOTE: Input fields with asterisk are required</p>
+                <p class="small text-center text-danger mx-2" data-aos="fade-up" data-aos-delay="400">NOTE: Input fields with asterisk are required</p>
                 
             </div>
         </div>
@@ -36,6 +36,23 @@
                     <div class="col-sm-8">
                         <input type="text" wire:model.defer="establishment_name" class="form-control">
                         @error('establishment_name')
+                            <span class="text-danger estab_name_empty">{{$message}}</span>
+                        @enderror
+                        
+                    </div>
+                </div>
+
+                <div class="form-group row" >
+                    <label class="col-sm-4 col-form-label text-right">Type of Establishment <span class="text-danger">*</span></label>
+                    <div class="col-sm-8">
+                        <select class="custom-select" wire:model.defer="type_of_establishment">
+                            <option value="">Choose...</option>
+                            <option value="Restaurant">Restaurant</option>
+                            <option value="Hotel">Hotel</option>
+                            <option value="Hotel and Restaurant">Hotel and Restaurant</option>
+                            <option value="Tourist Spot">Tourist Spot</option>
+                        </select>
+                        @error('type_of_establishment')
                             <span class="text-danger estab_name_empty">{{$message}}</span>
                         @enderror
                         

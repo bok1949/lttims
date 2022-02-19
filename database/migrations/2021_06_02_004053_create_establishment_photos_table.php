@@ -19,7 +19,7 @@ class CreateEstablishmentPhotosTable extends Migration
             $table->boolean('is_main');
             $table->string('image_path');
             $table->unsignedBigInteger('eui_id');
-            $table->foreign('eui_id')->references('id')->on('establishment_user_infos');
+            $table->foreign('eui_id')->references('id')->on('establishment_user_infos')->onDelete('cascade');
             $table->timestamps();
         });
     }
