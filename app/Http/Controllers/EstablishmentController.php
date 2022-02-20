@@ -199,7 +199,7 @@ class EstablishmentController extends Controller
     }
 
     public function dlQrCode($filename){
-        /* dd($filename); */
+        
         $file_path = public_path('storage/'.Str::lower($filename).'/'.Str::lower($filename).'.png');
         return Response::download($file_path);
     }

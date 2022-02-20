@@ -20,7 +20,7 @@ class EstablishmentListReports extends Component
     public $establishmentVisitors = false;
     public $sortYear, $sortMonth, $monthTextual, $sortym;
     private $dataCollection="";
-    protected $listeners = ['sortData' => 'sortEstablishmentVisitor'];
+    /* protected $listeners = ['sortData' => 'sortEstablishmentVisitor']; */
 
     public function generateEstablishmentPDF(){
         $estabData = DB::table('establishment_user_infos')
