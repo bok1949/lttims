@@ -35,7 +35,7 @@
                 <div class="col-sm-3">
                     <div class="input-group">
                         <select name="" class="custom-select" wire:model="sortYear">
-                            <option value="0" >--Select Year--</option>
+                            <option value="" >--Select Year--</option>
                             @for ($i = 2022; $i < 2050; $i++)
                                 <option value="{{$i}}">{{$i}}</option>
                             @endfor
@@ -47,22 +47,21 @@
                 </div>
                 <div class="col-sm-4 ">
                     <div class="input-group">
-                        <label for="" class="mt-2">Month:</label>
-                        <input type="month" wire:model="sortMonth" class="form-control">
+                        <label for="" class="mt-2 ">Month:</label>
+                        <input type="month" wire:model="sortMonth" class="form-control" >
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary" wire:click.prevent="sortEstablishmentVisitor({{json_encode($sortMonth)}})" type="button">Go</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <button type="button" wire:click="printEstablishmentVisitor()" class="btn btn-secondary float-right mb-2"><i class="fa fa-download" aria-hidden="true"></i> Download All</button> 
+                    <button type="button" wire:click="printEstablishmentVisitor({{json_encode($sortym)}})" class="btn btn-secondary float-right mb-2"><i class="fa fa-download" aria-hidden="true"></i> Download {{ $monthTextual }}</button> 
                 </div>
-               
+                {{-- {{$sortym}} --}}
                 {{-- {{$sortYear}}{{$sortMonth}} --}}
             </div>
-            
         @endif
-        <h3 class="text-center">List of Establishements {{ $monthTextual }}</h3>
+        <h3 class="text-center">List of Establishements of {{ $monthTextual }}</h3>
         @error('nodata')
             
         @enderror
@@ -72,7 +71,15 @@
                 
             </div>
         @else
-        <table class="table table-hover">
+        
+        {{-- <div wire:loading wire:target="sortEstablishmentVisitor({{json_encode($sortMonth)}})">
+            <div class="d-flex justify-content-center" >
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div> --}}
+        <table class="table table-hover" >
             <thead>
                 <tr>
                     <th scope="col">#</th>

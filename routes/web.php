@@ -50,6 +50,7 @@ Route::prefix('ao')->group(function(){
             Route::get('/personal-show-profile', [EstablishmentController::class, 'personalProfileShow'])->name('personal.showInfo');
             Route::get('/view-visitor-by-month', [EstablishmentController::class, 'viewVisitorByMonth'])->name('viewvisitorbymonth');
             Route::get('/view-all-visitor', [EstablishmentController::class, 'viewAllVisitors'])->name('viewallvisitors');
+            Route::get('/estab-view-report', [EstablishmentController::class, 'specificEstabReport'])->name('viewreport');
             
         });
         

@@ -31,6 +31,8 @@
                         <span class="dropdown-item active my-2 mx-0" > Profile Settings</span>
                         <li class="nav-item  custom-active "><a href="{{route('estab.showInfo')}}" class="nav-link pl-2"><i class="fa fa-university" aria-hidden="true"></i> Establishment </a></li>
                         <li class="nav-item custom-hover"><a href="{{route('personal.showInfo')}}" class="nav-link pl-2"><i class="fa fa-user" aria-hidden="true"></i> Personal  </a></li>
+                        <span class="dropdown-item active my-2 mx-0" > Report Settings</span>
+                        <li class="nav-item custom-hover"><a href="{{route('viewreport')}}" class="nav-link pl-2"><i class="fa fa-suitcase" aria-hidden="true"></i> Report  </a></li>
                     </ul>
                 </div>
             </aside>

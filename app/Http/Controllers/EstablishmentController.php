@@ -13,93 +13,128 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class EstablishmentController extends Controller
 {
+    
+    /* 
+    DB::table('establishment_user_infos')
+            ->select('establishment_user_infos.*',
+                DB::raw("(SELECT SUM(people_with_you_male) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as pwym"),
+                DB::raw("(SELECT SUM(people_with_you_female) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as pwyf"),
+                DB::raw("(SELECT SUM(people_with_you_lgbtq) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as pwylgbtq"),
+
+                DB::raw("(SELECT SUM(people_with_you_male) FROM visitor_users) as totalmale"),
+                DB::raw("(SELECT SUM(people_with_you_female) FROM visitor_users) as totalfemale"),
+                DB::raw("(SELECT SUM(people_with_you_lgbtq) FROM visitor_users) as totallgbtq"),
+
+                DB::raw("(SELECT (SUM(people_with_you_male)+SUM(people_with_you_female)+SUM(people_with_you_lgbtq)) FROM visitor_users) as totalvisitors")
+            
+                )
+            ->whereMonth('created_at', $value)
+            ->orWhereYear('created_at', $value)
+            ->orderBy('establishment_user_infos.created_at', 'asc')
+            ->get();    
+
+            DB::table('establishment_user_infos')
+            ->select('establishment_user_infos.*',
+                DB::raw("(SELECT SUM(people_with_you_male) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as pwym"),
+                DB::raw("(SELECT SUM(people_with_you_female) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as pwyf"),
+                DB::raw("(SELECT SUM(people_with_you_lgbtq) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as pwylgbtq"),
+
+                DB::raw("(SELECT SUM(people_with_you_male) FROM visitor_users) as totalmale"),
+                DB::raw("(SELECT SUM(people_with_you_female) FROM visitor_users) as totalfemale"),
+                DB::raw("(SELECT SUM(people_with_you_lgbtq) FROM visitor_users) as totallgbtq"),
+
+                DB::raw("(SELECT (SUM(people_with_you_male)+SUM(people_with_you_female)+SUM(people_with_you_lgbtq)) FROM visitor_users) as totalvisitors")
+            
+                )
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->orderBy('establishment_user_infos.created_at', 'asc')
+            ->get();
+
+            DB::raw("(SELECT SUM(people_with_you_male) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as pwym"),
+                DB::raw("(SELECT SUM(people_with_you_female) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as pwyf"),
+                DB::raw("(SELECT SUM(people_with_you_lgbtq) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as pwylgbtq"),
+    */
+    /* Number of visitors per month */
+    public function numberOfVisitorsPerMonth($userid){
+        return DB::table('establishment_user_infos')
+            ->select('establishment_user_infos.ua_id',
+                
+                 DB::raw("(SELECT SUM(people_with_you_male) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as totalpwym"),
+                DB::raw("(SELECT SUM(people_with_you_female) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as totalpwyf"),
+                DB::raw("(SELECT SUM(people_with_you_lgbtq) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as totalpwylgbtq"),
+                DB::raw("(SELECT (SUM(people_with_you_male)+SUM(people_with_you_female)+SUM(people_with_you_lgbtq)) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as totalmonth")
+                )
+            ->join('visitor_users', 'visitor_users.eui_id', '=', 'establishment_user_infos.id')
+            ->whereMonth('visitor_users.created_at', Carbon::now()->month)
+            ->where('establishment_user_infos.ua_id', $userid)
+            ->first();
+    }
+    /* Number of Visitors Per year */
+    public function numberOfVisitorsPerYear($userid){
+        return DB::table('establishment_user_infos')
+            ->select('establishment_user_infos.ua_id',
+                
+                 DB::raw("(SELECT SUM(people_with_you_male) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as totalyearmale"),
+                DB::raw("(SELECT SUM(people_with_you_female) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as totalyearfemale"),
+                DB::raw("(SELECT SUM(people_with_you_lgbtq) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as totalyearlgbtq"),
+                DB::raw("(SELECT (SUM(people_with_you_male)+SUM(people_with_you_female)+SUM(people_with_you_lgbtq)) 
+                FROM visitor_users WHERE visitor_users.eui_id=establishment_user_infos.id) as totalyear")
+                )
+            ->join('visitor_users', 'visitor_users.eui_id', '=', 'establishment_user_infos.id')
+            ->whereYear('visitor_users.created_at', Carbon::now()->year)
+            ->where('establishment_user_infos.ua_id', $userid)
+            ->first();
+    }
+    /* Establishment Dahsboard */
     public function estabDashboard(){
-        $user = DB::table('users')->where('id', session('authID'))->first();
-        $headCount = DB::table('establishment_user_infos')
-                ->join('visitor_users', 'establishment_user_infos.id', '=', 'visitor_users.eui_id')
-                ->whereMonth('visitor_users.created_at', Carbon::now()->month)
-                ->where('establishment_user_infos.ua_id', session('authID'))
-                ->sum(DB::raw("visitor_users.people_with_you_male + visitor_users.people_with_you_female + visitor_users.people_with_you_lgbtq"));
-        /* dd($headCount); */
-        $logsCount = DB::table('establishment_user_infos')
-                ->join('visitor_users', 'establishment_user_infos.id', '=', 'visitor_users.eui_id')
-                ->whereMonth('visitor_users.created_at', Carbon::now()->month)
-                ->where('establishment_user_infos.ua_id', session('authID'))
-                ->count();
-        $headCountAll = DB::table('establishment_user_infos')
-                ->join('visitor_users', 'establishment_user_infos.id', '=', 'visitor_users.eui_id')
-                ->where('establishment_user_infos.ua_id', session('authID'))
-                ->sum(DB::raw("visitor_users.people_with_you_male + visitor_users.people_with_you_female + visitor_users.people_with_you_lgbtq"));;
-        $logsCountAll = DB::table('establishment_user_infos')
-                ->join('visitor_users', 'establishment_user_infos.id', '=', 'visitor_users.eui_id')
-                ->where('establishment_user_infos.ua_id', session('authID'))
-                ->count();
-        
-        $data = [
-            'loggedUserInfo'    => $user,
-            'headCount'         => $headCount,
-            'logsCount'         => $logsCount,
-            'headCountAll'      => $headCountAll,
-            'logsCountAll'      => $logsCountAll
-        ];
-        return view('ao-pages.establishment-pages.estab-dashboard', $data);
+        $loggedUserInfo = DB::table('users')
+            ->select('users.*', 'establishment_user_infos.establishment_name', 'establishment_user_infos.created_at')
+            ->join('establishment_user_infos', 'establishment_user_infos.ua_id', '=', 'users.id')
+            ->where('users.id', session('authID'))->first();
+            /* return $user->id; */
+        $numVisitorMonth = $this->numberOfVisitorsPerMonth($loggedUserInfo->id);
+        $numVisitorYear = $this->numberOfVisitorsPerYear($loggedUserInfo->id);
+       
+        return view('ao-pages.establishment-pages.estab-dashboard', compact('loggedUserInfo', 'numVisitorMonth','numVisitorYear'));
     }
 
-    /* View visitors by month */
-    public function viewVisitorByMonth(){
-        $user = DB::table('users')->where('id', session('authID'))->first();
-        $headCount = DB::table('establishment_user_infos')
-                ->join('visitor_users', 'establishment_user_infos.id', '=', 'visitor_users.eui_id')
-                ->whereMonth('visitor_users.created_at', Carbon::now()->month)
-                ->where('establishment_user_infos.ua_id', session('authID'))
-                ->sum('people_with_you_male') + sum('people_with_you_female') + sum('people_with_you_lgbtq');
-        $logsCount = DB::table('establishment_user_infos')
-                ->join('visitor_users', 'establishment_user_infos.id', '=', 'visitor_users.eui_id')
-                ->whereMonth('visitor_users.created_at', Carbon::now()->month)
-                ->where('establishment_user_infos.ua_id', session('authID'))
-                ->count();
-        
-        $visitorsInfo = DB::table('establishment_user_infos')
-                ->join('visitor_users', 'establishment_user_infos.id', '=', 'visitor_users.eui_id')
-                ->whereMonth('visitor_users.created_at', Carbon::now()->month)
-                ->where('establishment_user_infos.ua_id', session('authID'))
-                ->paginate(1);
-
-        $data = [
-            'loggedUserInfo'    => $user,
-            'headCount'         => $headCount,
-            'logsCount'         => $logsCount,
-            'visitorsInfo'      => $visitorsInfo
-        ];
-        return view('ao-pages.establishment-pages.dashboard-visitorby-month', $data);
+    /* Show Reports */
+    public function specificEstabReport(){
+          $loggedUserInfo = DB::table('users')
+            ->select('users.*', 'establishment_user_infos.establishment_name', 'establishment_user_infos.created_at')
+            ->join('establishment_user_infos', 'establishment_user_infos.ua_id', '=', 'users.id')
+            ->where('users.id', session('authID'))->first();
+        $numVisitorMonth = $this->getVisitorsWithSumMonth($loggedUserInfo->id);
+        //$numVisitorYear = $this->numberOfVisitorsPerYear($loggedUserInfo->id);
+        /* dd($numVisitorMonth); */
+        return view('ao-pages.establishment-pages.specific-estab-report', compact('loggedUserInfo','numVisitorMonth'));
     }
-
-    /* View all visitors */
-    public function viewAllVisitors(){
-        $user = DB::table('users')->where('id', session('authID'))->first();
-        $headCount = DB::table('establishment_user_infos')
-                ->join('visitor_users', 'establishment_user_infos.id', '=', 'visitor_users.eui_id')
-                ->where('establishment_user_infos.ua_id', session('authID'))
-                ->sum('people_with_you_male') + sum('people_with_you_female') + sum('people_with_you_lgbtq');
-        $logsCount = DB::table('establishment_user_infos')
-                ->join('visitor_users', 'establishment_user_infos.id', '=', 'visitor_users.eui_id')
-                ->where('establishment_user_infos.ua_id', session('authID'))
-                ->count();
-        
-        $visitorsInfo = DB::table('establishment_user_infos')
-                ->join('visitor_users', 'establishment_user_infos.id', '=', 'visitor_users.eui_id')
-                ->where('establishment_user_infos.ua_id', session('authID'))
-                ->paginate(1);
-
-        $data = [
-            'loggedUserInfo'    => $user,
-            'headCount'         => $headCount,
-            'logsCount'         => $logsCount,
-            'visitorsInfo'      => $visitorsInfo
-        ];
-        return view('ao-pages.establishment-pages.dashboard-viewall-visitors', $data);
+    /* show visitors */
+    public function getVisitorsWithSumMonth($userid){
+        return DB::table('establishment_user_infos')
+            ->select('establishment_user_infos.ua_id', 'visitor_users.*')
+            ->join('visitor_users', 'visitor_users.eui_id', '=', 'establishment_user_infos.id')
+            ->whereMonth('visitor_users.created_at', Carbon::now()->month)
+            ->where('establishment_user_infos.ua_id', $userid)
+            ->orderBy('visitor_users.created_at', 'asc')
+            ->paginate(15);
     }
-
     /* Change Account Settings */
     public function changeAccount(Request $request){
         $request->validate([
@@ -163,26 +198,11 @@ class EstablishmentController extends Controller
         return back()->with('image_created', 'Image successfully created!');
     }
 
-    public function createQrCode(){
-        
-        $estabName = DB::table('establishment_user_infos')
-                    ->select('establishment_name', 'id')
-                    ->where('ua_id', session('authID'))->first();
-        /* dd(route('visitor-logform', $estabName->id)); */
-        /* Folder Name */
-        $folderName = preg_replace('/\s+/', '-', Str::lower($estabName->establishment_name));
-        if (!file_exists(public_path('storage/uploads/'.$folderName.'/'.$folderName.'.png'))) {
-            QrCode::size(500)
-              ->format('png')
-              ->generate(route('visitor-logform', $estabName->id), public_path('storage/uploads/'.$folderName.'/'.$folderName.'.png'));
-            return back()->with('qr_created', 'QR Code created successfully!');
-        }
-        return back();
-    }
+    
 
     public function dlQrCode($filename){
         /* dd($filename); */
-        $file_path = public_path('storage/uploads/'.Str::lower($filename).'/'.Str::lower($filename).'.png');
+        $file_path = public_path('storage/'.Str::lower($filename).'/'.Str::lower($filename).'.png');
         return Response::download($file_path);
     }
 
@@ -242,11 +262,11 @@ class EstablishmentController extends Controller
 
     /* Show Personal Profile */
     public function personalProfileShow(){
-        $user = DB::table('users')->where('id', session('authID'))->first();
+        $loggedUserInfo = DB::table('users')
+            ->select('users.*', 'establishment_user_infos.establishment_name', 'establishment_user_infos.created_at')
+            ->join('establishment_user_infos', 'establishment_user_infos.ua_id', '=', 'users.id')
+            ->where('users.id', session('authID'))->first();
         
-        $data = [
-            'loggedUserInfo'    => $user,
-        ];
-        return view('ao-pages.establishment-pages.personal-profile-show', $data);
+        return view('ao-pages.establishment-pages.personal-profile-show', compact('loggedUserInfo'));
     }
 }

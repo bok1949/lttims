@@ -357,32 +357,13 @@
                     You can no longer add Photos. Remove uploaded images and you can upload again.
                 </p>
             @endif
-            <div class="shadow-sm bg-white mt-2 rounded p-2">
-                
-                {{-- {{$folderName}} --}}
-                @if (!file_exists(public_path('storage/uploads/'.$folderName.'/'.$folderName.'.png')))                        
-                    <h4>Generate QR Code</h4>
-                    <form action="{{route('create.qr')}}" method="post">
-                            @csrf
-                            <input type="submit" class="btn btn-primary" value="Generate">
-                    </form>
-                @else
-                    <h4>Generated QR Code</h4>
-                @endif
-                @if (session()->has('qr_created'))
-                    <div class="row justify-content-md-center">
-                        <div class="col-md-12 alert alert-success">
-                            {{ session('qr_created') }}
-                        </div>
-                    </div>
-                @endif
-            </div>
-            @if (file_exists(public_path('storage/uploads/'.$folderName.'/'.$folderName.'.png')))
+            
+            @if (file_exists(public_path('storage/'.$folderName.'/'.$folderName.'.png')))
             <div class="card mt-2 ">
                 <div class="card-body">
                     
                     <div class="visible-print text-center">
-                        <img src="{{asset('storage/uploads/'.$folderName.'/'.$folderName.'.png')}}" alt="">                            
+                        <img src="{{asset('storage/'.$folderName.'/'.$folderName.'.png')}}" alt="">                            
                     </div>
                     
                     <div class="d-flex justify-content-center mt-4">
