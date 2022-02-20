@@ -198,8 +198,6 @@ class EstablishmentController extends Controller
         return back()->with('image_created', 'Image successfully created!');
     }
 
-    
-
     public function dlQrCode($filename){
         /* dd($filename); */
         $file_path = public_path('storage/'.Str::lower($filename).'/'.Str::lower($filename).'.png');
